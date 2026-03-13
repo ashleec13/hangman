@@ -10,7 +10,6 @@ body {
     font-style: normal;
 }
 
-
 /* 
 START SNOW */
 .snow-wrapper {
@@ -29,114 +28,47 @@ START SNOW */
     background: rgba(255, 255, 255, 0.85); /* slightly translucent white for contrast */
     border-radius: 50%;
     animation: fallingSnow 3s linear infinite;
-
     position: absolute;
     left: 0;
     top: -40px;
 }
 
-
 @keyframes fallingSnow {
     0% {
         transform: translateY(0);
-
     }
-
     100% {
         transform: translateY(100vh);
-
     }
 }
 
-.snow:nth-child(1) {
-    left: 10%;
-    width: 20px;
-    height: 20px;
-    animation-delay: 0s;
-    animation-duration: 6s;
-}
-
-
-.snow:nth-child(2) {
-    left: 20%;
-    width: 30;
-    height: 30;
-    animation-delay: 2s;
-}
-
-.snow:nth-child(3) {
-    left: 35%;
-    width: 40;
-    height: 40;
-    animation-delay: 4s;
-}
-
-.snow:nth-child(4) {
-    left: 40%;
-    width: 20px;
-    height: 20px;
-    animation-delay: 0s;
-
-}
-
-.snow:nth-child(5) {
-    left: 50%;
-    width: 20px;
-    height: 20px;
-    animation-delay: 0s;
-}
-
-
-.snow:nth-child(6) {
-    left: 60%;
-    width: 30;
-    height: 30;
-    animation-delay: 2s;
-}
-
-.snow:nth-child(7) {
-    left: 70%;
-    width: 40;
-    height: 40;
-    animation-delay: 4s;
-}
-
-.snow:nth-child(8) {
-    left: 80%;
-    width: 20px;
-    height: 20px;
-    animation-delay: 0s;
-
-}
-
-
-.snow:nth-child(9) {
-    left: 90%;
-    width: 30;
-    height: 30;
-    animation-delay: 2s;
-}
-
-.snow:nth-child(10) {
-    left: 100%;
-    width: 40;
-    height: 40;
-    animation-delay: 4s;
-}
-
-
+.snow:nth-child(1) { left: 10%; width: 20px; height: 20px; animation-delay: 0s; animation-duration: 6s; }
+.snow:nth-child(2) { left: 20%; width: 30px; height: 30px; animation-delay: 2s; }
+.snow:nth-child(3) { left: 35%; width: 40px; height: 40px; animation-delay: 4s; }
+.snow:nth-child(4) { left: 40%; width: 20px; height: 20px; animation-delay: 0s; }
+.snow:nth-child(5) { left: 50%; width: 20px; height: 20px; animation-delay: 0s; }
+.snow:nth-child(6) { left: 60%; width: 30px; height: 30px; animation-delay: 2s; }
+.snow:nth-child(7) { left: 70%; width: 40px; height: 40px; animation-delay: 4s; }
+.snow:nth-child(8) { left: 80%; width: 20px; height: 20px; animation-delay: 0s; }
+.snow:nth-child(9) { left: 90%; width: 30px; height: 30px; animation-delay: 2s; }
+.snow:nth-child(10){ left: 100%; width: 40px; height: 40px; animation-delay: 4s; }
 /* END SNOW */
 
+/* ----------------- GAME STYLES ----------------- */
 .game-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 20px;
+    z-index: 10; /* ensure game is above snow */
+    position: relative;
 }
 
 .hangmanImage {
-    width: 400px;
+    width: 200px;
     height: auto;
+    float: left;
 }
 
 .buttons {
@@ -149,11 +81,8 @@ button {
     padding: 12px 24px;
     font-size: 18px;
     background-color: #f7a1b9;
-    /* Pastel blue */
     color: #845c9e;
-    /* Soft darker blue text for readability */
     border: 2px solid #e45d98;
-    /* Pastel pink border */
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -161,25 +90,71 @@ button {
 
 button:hover {
     background-color: #fcc3d3;
-    /* Lighter pastel blue on hover */
     transform: scale(1.05);
+}
+
+/* Word display & keyboard */
+#wordDisplay {
+    font-size: 2rem;
+    margin: 10px 0;
+    float: right;
+    width: calc(50% - 20px);
+    text-align: center;
+}
+
+#guessedLetters,
+#guessesLeft {
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+#message {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#keyboard {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    clear: both;
+}
+
+/* Keyboard buttons */
+.key {
+    width: 40px;
+    height: 40px;
+    margin: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #845c9e;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.key.correct {
+    background-color: green;
+    color: white;
+}
+
+.key.wrong {
+    background-color: gray;
+    color: white;
 }
 
 /* Responsive adjustments */
 @media (min-width: 768px) {
-    .hangmanImage {
-        width: 600px;
-    }
-    .buttons {
-        flex-direction: row;
-    }
+    .hangmanImage { width: 300px; }
+    .buttons { flex-direction: row; }
+    #wordDisplay { width: calc(50% - 30px); }
 }
 
 @media (max-width: 767px) {
-    .hangmanImage {
-        width: 300px;
-    }
-    .buttons {
-        flex-direction: column;
-    }
+    .hangmanImage { width: 150px; }
+    .buttons { flex-direction: column; }
+    #wordDisplay { width: calc(50% - 10px); }
 }
