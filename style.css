@@ -1,3 +1,4 @@
+/* General Body */
 body {
     background-color: #CFE8FF;
     display: flex;
@@ -8,10 +9,10 @@ body {
     font-family: "rl-horizon", sans-serif;
     font-weight: 400;
     font-style: normal;
+    position: relative;
 }
 
-/* 
-START SNOW */
+/* SNOW EFFECT */
 .snow-wrapper {
     position: absolute;
     top: 0;
@@ -25,60 +26,111 @@ START SNOW */
 .snow {
     width: 10px;
     height: 10px;
-    background: rgba(255, 255, 255, 0.85); /* slightly translucent white for contrast */
+    background: rgba(255, 255, 255, 0.5);
     border-radius: 50%;
-    animation: fallingSnow 3s linear infinite;
     position: absolute;
-    left: 0;
     top: -40px;
+    animation: fallingSnow 3s linear infinite;
 }
 
+/* Falling snow animation */
 @keyframes fallingSnow {
     0% {
         transform: translateY(0);
     }
+
     100% {
         transform: translateY(100vh);
     }
 }
 
-.snow:nth-child(1) { left: 10%; width: 20px; height: 20px; animation-delay: 0s; animation-duration: 6s; }
-.snow:nth-child(2) { left: 20%; width: 30px; height: 30px; animation-delay: 2s; }
-.snow:nth-child(3) { left: 35%; width: 40px; height: 40px; animation-delay: 4s; }
-.snow:nth-child(4) { left: 40%; width: 20px; height: 20px; animation-delay: 0s; }
-.snow:nth-child(5) { left: 50%; width: 20px; height: 20px; animation-delay: 0s; }
-.snow:nth-child(6) { left: 60%; width: 30px; height: 30px; animation-delay: 2s; }
-.snow:nth-child(7) { left: 70%; width: 40px; height: 40px; animation-delay: 4s; }
-.snow:nth-child(8) { left: 80%; width: 20px; height: 20px; animation-delay: 0s; }
-.snow:nth-child(9) { left: 90%; width: 30px; height: 30px; animation-delay: 2s; }
-.snow:nth-child(10){ left: 100%; width: 40px; height: 40px; animation-delay: 4s; }
-/* END SNOW */
+/* Randomize snowflakes */
+.snow:nth-child(1) {
+    left: 5%;
+    width: 15px;
+    height: 15px;
+    animation-delay: 0s;
+    animation-duration: 6s;
+}
 
-/* ----------------- GAME STYLES ----------------- */
+.snow:nth-child(2) {
+    left: 10%;
+    width: 10px;
+    height: 10px;
+    animation-delay: 1s;
+}
+
+.snow:nth-child(3) {
+    left: 15%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 2s;
+}
+
+.snow:nth-child(4) {
+    left: 20%;
+    width: 12px;
+    height: 12px;
+    animation-delay: 3s;
+}
+
+.snow:nth-child(5) {
+    left: 25%;
+    width: 18px;
+    height: 18px;
+    animation-delay: 1.5s;
+}
+
+/* Repeat for all snowflakes up to nth-child(30) with different left, size, delay */
+.snow:nth-child(6) {
+    left: 30%;
+    width: 10px;
+    height: 10px;
+    animation-delay: 0.5s;
+}
+
+/* ... continue pattern ... */
+.snow:nth-child(30) {
+    left: 95%;
+    width: 12px;
+    height: 12px;
+    animation-delay: 2.5s;
+}
+
+/* GAME STYLES */
 .game-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    align-items: flex-start;
     justify-content: center;
-    gap: 20px;
-    z-index: 10; /* ensure game is above snow */
+    gap: 40px;
+    z-index: 10;
     position: relative;
 }
 
 .hangmanImage {
-    width: 200px;
+    width: 400px;
+    max-width: 45vw;
     height: auto;
-    float: left;
 }
 
-.buttons {
+.game-content {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    gap: 15px;
+    width: min(500px, 100%);
 }
 
-button {
-    padding: 12px 24px;
+/* Difficulty buttons */
+.buttons {
+    display: flex;
+    gap: 15px;
+}
+
+/* Buttons style: same pink/purple look */
+button.btn {
+    padding: 12px 25px;
     font-size: 18px;
     background-color: #f7a1b9;
     color: #845c9e;
@@ -88,18 +140,37 @@ button {
     transition: all 0.3s ease;
 }
 
-button:hover {
+button.btn:hover {
     background-color: #fcc3d3;
     transform: scale(1.05);
 }
 
-/* Word display & keyboard */
+/* Input row & Guess + Restart */
+.input-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.side-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+/* Center the text input */
+#guessInput {
+    text-align: center;
+}
+
+/* Word & Keyboard */
 #wordDisplay {
     font-size: 2rem;
-    margin: 10px 0;
-    float: right;
-    width: calc(50% - 20px);
     text-align: center;
+    margin: 10px 0;
 }
 
 #guessedLetters,
@@ -115,46 +186,67 @@ button:hover {
 }
 
 #keyboard {
-    margin-top: 10px;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 4px;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
     clear: both;
 }
 
-/* Keyboard buttons */
+.keyboard-row {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+}
+
 .key {
     width: 40px;
     height: 40px;
-    margin: 4px;
     font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
     border: 1px solid #845c9e;
     background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     transition: all 0.3s ease;
 }
 
 .key.correct {
-    background-color: green;
+    background-color: #DE3163;
     color: white;
 }
 
 .key.wrong {
-    background-color: gray;
+    background-color: rgba(255, 161, 161, 0.39);
     color: white;
 }
 
-/* Responsive adjustments */
-@media (min-width: 768px) {
-    .hangmanImage { width: 300px; }
-    .buttons { flex-direction: row; }
-    #wordDisplay { width: calc(50% - 30px); }
-}
-
+/* Responsive */
 @media (max-width: 767px) {
-    .hangmanImage { width: 150px; }
-    .buttons { flex-direction: column; }
-    #wordDisplay { width: calc(50% - 10px); }
+    .game-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hangmanImage {
+        width: 300px;
+    }
+
+    .game-content {
+        width: 90%;
+    }
+
+    .buttons {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .side-buttons {
+        flex-wrap: wrap;
+        width: 100%;
+        justify-content: center;
+    }
 }

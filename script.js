@@ -1,19 +1,19 @@
 // -------------------- WORD BANKS --------------------
-let wordBankEasy = ["snowman","sleigh","icicle","frosty","mittens","hotchocolate","frozen"];
-let wordBankMedium = ["candycane","sledding","icehouse","snowglobe","snowangel","hollyberry","winter hat"];
-let wordBankHard = ["blizzardly","frostbite","wintertime","icepalace","polarexpedition","winterapparel","winter wonderland"];
+let wordBankEasy = ["snowman", "sleigh", "icicle", "frosty", "mittens", "hotchocolate", "frozen"];
+let wordBankMedium = ["candycane", "sledding", "icehouse", "snowglobe", "snowangel", "hollyberry", "winter hat"];
+let wordBankHard = ["blizzardly", "frostbite", "wintertime", "icepalace", "polarexpedition", "winterapparel", "winter wonderland"];
 
 // -------------------- IMAGE ARRAYS --------------------
 let imagesEasy = [
-    "easyHangman/eastStart.png","easyHangman/easy2.png","easyHangman/easy3.png","easyHangman/easy4.png",
-    "easyHangman/easy5.png","easyHangman/easy6.png","easyHangman/easy7.png","easyHangman/easy8.png","easyHangman/easy9.png","easyHangman/easy9.png"
+    "easyHangman/eastStart.png", "easyHangman/easy2.png", "easyHangman/easy3.png", "easyHangman/easy4.png",
+    "easyHangman/easy5.png", "easyHangman/easy6.png", "easyHangman/easy7.png", "easyHangman/easy8.png", "easyHangman/easy9.png", "easyHangman/easy9.png"
 ];
 let imagesMedium = [
-    "mediumHangman/mediumStart.png","mediumHangman/medium2.png","mediumHangman/medium3.png","mediumHangman/medium4.png",
-    "mediumHangman/medium5.png","mediumHangman/medium6.png","mediumHangman/medium7.png","mediumHangman/medium7.png"
+    "mediumHangman/mediumStart.png", "mediumHangman/medium2.png", "mediumHangman/medium3.png", "mediumHangman/medium4.png",
+    "mediumHangman/medium5.png", "mediumHangman/medium6.png", "mediumHangman/medium7.png", "mediumHangman/medium7.png"
 ];
 let imagesHard = [
-    "hardHangman/hardStart.png","hardHangman/hard2.png","hardHangman/hard3.png","hardHangman/hard4.png","hardHangman/hard5.png","hardHangman/hard5.png"
+    "hardHangman/hardStart.png", "hardHangman/hard2.png", "hardHangman/hard3.png", "hardHangman/hard4.png", "hardHangman/hard5.png", "hardHangman/hard5.png"
 ];
 
 // -------------------- GAME VARIABLES --------------------
@@ -36,8 +36,8 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("guessBtn").addEventListener("click", handleGuess);
 
     // Enter key for input
-    document.getElementById("guessInput").addEventListener("keypress", function(e){
-        if(e.key === "Enter"){
+    document.getElementById("guessInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
             handleGuess();
         }
     });
@@ -47,23 +47,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Build on-screen keyboard
     buildKeyboard();
+
+    // Initial prompt
+    document.getElementById("message").textContent = "Please pick a level first.";
+    document.getElementById("guessBtn").disabled = true;
+    document.getElementById("restartBtn").disabled = true;
+    document.getElementById("guessInput").disabled = true;
 });
 
 // -------------------- START GAME --------------------
-function startGame(difficulty){
+function startGame(difficulty) {
 
     // Set word bank and max guesses based on difficulty
-    if(difficulty === "easy"){
+    if (difficulty === "easy") {
         secretWord = wordBankEasy[Math.floor(Math.random() * wordBankEasy.length)];
         maxGuesses = 9;
         currentImages = imagesEasy;
     }
-    if(difficulty === "medium"){
+    if (difficulty === "medium") {
         secretWord = wordBankMedium[Math.floor(Math.random() * wordBankMedium.length)];
         maxGuesses = 7;
         currentImages = imagesMedium;
     }
-    if(difficulty === "hard"){
+    if (difficulty === "hard") {
         secretWord = wordBankHard[Math.floor(Math.random() * wordBankHard.length)];
         maxGuesses = 5;
         currentImages = imagesHard;
@@ -74,6 +80,11 @@ function startGame(difficulty){
     wrongGuesses = 0;
     gameOver = false;
     document.getElementById("message").textContent = "";
+
+    // Enable game controls
+    document.getElementById("guessBtn").disabled = false;
+    document.getElementById("restartBtn").disabled = false;
+    document.getElementById("guessInput").disabled = false;
 
     // Disable difficulty buttons during game
     document.querySelector(".easyMode").disabled = true;
@@ -89,22 +100,22 @@ function startGame(difficulty){
 }
 
 // -------------------- HANDLE GUESS --------------------
-function handleGuess(){
+function handleGuess() {
 
-    if(gameOver) return;
+    if (gameOver) return;
 
     let input = document.getElementById("guessInput");
     let letter = input.value.toLowerCase();
     input.value = "";
 
     // Validate input
-    if(letter.length !== 1 || !letter.match(/[a-z]/)){
+    if (letter.length !== 1 || !letter.match(/[a-z]/)) {
         document.getElementById("message").textContent = "Enter one letter (A-Z).";
         return;
     }
 
     // Check duplicate
-    if(guessedLetters.includes(letter)){
+    if (guessedLetters.includes(letter)) {
         document.getElementById("message").textContent = "You already guessed that.";
         return;
     }
@@ -112,11 +123,11 @@ function handleGuess(){
     guessedLetters.push(letter);
 
     // Correct or wrong
-    if(secretWord.includes(letter)){
-        colorKey(letter,"correct");
+    if (secretWord.includes(letter)) {
+        colorKey(letter, "correct");
     } else {
         wrongGuesses++;
-        colorKey(letter,"wrong");
+        colorKey(letter, "wrong");
         updateImage();
     }
 
@@ -125,20 +136,19 @@ function handleGuess(){
 }
 
 // -------------------- UPDATE WORD DISPLAY --------------------
-function updateDisplay(){
+function updateDisplay() {
     let display = "";
 
-    for(let i = 0; i < secretWord.length; i++){
+    for (let i = 0; i < secretWord.length; i++) {
         let letter = secretWord.charAt(i);
 
-        // Automatically show spaces in multi-word phrases
-        if(letter === " "){
+        if (letter === " ") {
             display += "  "; // double space between words
         }
-        else if(guessedLetters.includes(letter)){
+        else if (guessedLetters.includes(letter)) {
             display += letter + " ";
         }
-        else{
+        else {
             display += "_ ";
         }
     }
@@ -149,66 +159,81 @@ function updateDisplay(){
 }
 
 // -------------------- CHECK WIN/LOSE --------------------
-function checkGame(){
+function checkGame() {
     let win = true;
 
-    for(let i = 0; i < secretWord.length; i++){
+    for (let i = 0; i < secretWord.length; i++) {
         let letter = secretWord.charAt(i);
-        if(letter !== " " && !guessedLetters.includes(letter)){
+        if (letter !== " " && !guessedLetters.includes(letter)) {
             win = false;
         }
     }
 
-    if(win){
+    if (win) {
         document.getElementById("message").textContent = "You Win!";
         gameOver = true;
         return;
     }
 
-    if(wrongGuesses >= maxGuesses){
-        document.getElementById("message").textContent = "You Lose! Word was: " + secretWord;
+    if (wrongGuesses >= maxGuesses) {
+document.getElementById("message").innerHTML =
+    "Lose! Word was: <b>" + secretWord + "</b><br><b>Pick a level to play again</b>";
         gameOver = true;
     }
 }
 
 // -------------------- UPDATE IMAGE --------------------
-function updateImage(){
+function updateImage() {
     let img = document.getElementById("hangmanImg");
-    if(wrongGuesses >= currentImages.length){
+    if (wrongGuesses >= currentImages.length) {
         wrongGuesses = currentImages.length - 1;
     }
     img.src = currentImages[wrongGuesses];
 }
 
 // -------------------- BUILD KEYBOARD --------------------
-function buildKeyboard(){
+function buildKeyboard() {
     let keyboard = document.getElementById("keyboard");
     keyboard.innerHTML = "";
-    let alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-    for(let i=0;i<alphabet.length;i++){
-        let key = document.createElement("button");
-        key.textContent = alphabet[i];
-        key.classList.add("key");
+    // Split the keyboard into rows for a more natural layout
+    let rows = [
+        "qwertyuiop",
+        "asdfghjkl",
+        "zxcvbnm"
+    ];
 
-        key.addEventListener("click", function(){
-            document.getElementById("guessInput").value = alphabet[i];
-            handleGuess();
-        });
+    rows.forEach((rowLetters) => {
+        let row = document.createElement("div");
+        row.classList.add("keyboard-row");
 
-        // keyboard.appendChild(key);
-    }
+        for (let i = 0; i < rowLetters.length; i++) {
+            let letter = rowLetters[i];
+            let key = document.createElement("button");
+            key.textContent = letter;
+            key.classList.add("key");
+
+            key.addEventListener("click", function () {
+                document.getElementById("guessInput").value = letter;
+                handleGuess();
+            });
+
+            row.appendChild(key);
+        }
+
+        keyboard.appendChild(row);
+    });
 }
 
 // -------------------- COLOR KEYS --------------------
-function colorKey(letter,type){
+function colorKey(letter, type) {
     let keys = document.querySelectorAll(".key");
     keys.forEach(key => {
-        if(key.textContent === letter){
-            if(type === "correct"){
+        if (key.textContent === letter) {
+            if (type === "correct") {
                 key.classList.add("correct");
             }
-            if(type === "wrong"){
+            if (type === "wrong") {
                 key.classList.add("wrong");
             }
         }
@@ -216,7 +241,7 @@ function colorKey(letter,type){
 }
 
 // -------------------- RESTART GAME --------------------
-function restartGame(){
+function restartGame() {
     document.querySelector(".easyMode").disabled = false;
     document.querySelector(".mediumMode").disabled = false;
     document.querySelector(".hardMode").disabled = false;
@@ -236,3 +261,19 @@ function restartGame(){
     document.getElementById("guessedLetters").textContent = "";
     document.getElementById("guessesLeft").textContent = "";
 }
+
+
+    // Generate snow dynamically for full screen 
+    const snowWrapper = document.querySelector('.snow-wrapper');
+    const snowCount = 100; // more snowflakes
+    for (let i = 0; i < snowCount; i++) {
+      const snow = document.createElement('div');
+      snow.classList.add('snow');
+      snow.style.left = Math.random() * 100 + 'vw';
+      const size = 5 + Math.random() * 15;
+      snow.style.width = size + 'px';
+      snow.style.height = size + 'px';
+      snow.style.animationDuration = 5 + Math.random() * 5 + 's';
+      snow.style.animationDelay = Math.random() * 5 + 's';
+      snowWrapper.appendChild(snow);
+    }
