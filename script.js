@@ -50,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Initial prompt
     document.getElementById("message").textContent = "Please pick a level first.";
+      
     document.getElementById("guessBtn").disabled = true;
     document.getElementById("restartBtn").disabled = true;
     document.getElementById("guessInput").disabled = true;
@@ -159,6 +160,7 @@ function updateDisplay() {
 }
 
 // -------------------- CHECK WIN/LOSE --------------------
+
 function checkGame() {
     let win = true;
 
@@ -176,12 +178,14 @@ function checkGame() {
     }
 
     if (wrongGuesses >= maxGuesses) {
-document.getElementById("message").innerHTML =
-    "Lose! Word was: <b>" + secretWord + "</b><br><b>Pick a level to play again</b>";
+        document.getElementById("message").innerHTML =
+            "Lose! Word was: <b>" + secretWord + "</b><br><b>Pick a level to play again</b>";
         gameOver = true;
+
+        // **Remove the snowman image completely**
+        document.getElementById("hangmanImg").src = "lose.png";
     }
 }
-
 // -------------------- UPDATE IMAGE --------------------
 function updateImage() {
     let img = document.getElementById("hangmanImg");
@@ -263,6 +267,13 @@ function restartGame() {
 }
 
 
+
+
+
+
+
+
+// FOR THE SNOW EFFECT ON THE BACKGROUND
     // Generate snow dynamically for full screen 
     const snowWrapper = document.querySelector('.snow-wrapper');
     const snowCount = 100; // more snowflakes
